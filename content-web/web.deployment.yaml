@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "3"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"web"},"name":"web","namespace":"ingress-demo"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"web"}},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":1},"type":"RollingUpdate"},"template":{"metadata":{"labels":{"app":"web"},"name":"web"},"spec":{"containers":[{"env":[{"name":"CONTENT_API_URL","value":"http://api:3001"}],"image":"fabmedical758517.azurecr.io/content-web","imagePullPolicy":"Always","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/","port":3000},"initialDelaySeconds":30,"periodSeconds":20,"timeoutSeconds":10},"name":"web","ports":[{"containerPort":3000,"hostPort":80,"protocol":"TCP"}],"resources":{"requests":{"cpu":"1000m","memory":"128Mi"}},"securityContext":{"privileged":false},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}}}
+  creationTimestamp: "2022-10-06T11:01:19Z"
+  generation: 3
+  labels:
+    app: web
+  name: web
+  namespace: ingress-demo
+  resourceVersion: "77338"
+  uid: f0f6f447-917e-415a-bef0-8ce6641c10c8
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 4
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web
+      name: web
+    spec:
+      containers:
+      - env:
+        - name: CONTENT_API_URL
+          value: http://api:3001
+        image: fabmedical758517.azurecr.io/content-web
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: web
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 125m
+            memory: 128Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 4
+  conditions:
+  - lastTransitionTime: "2022-10-06T11:34:50Z"
+    lastUpdateTime: "2022-10-06T11:34:50Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2022-10-06T11:01:19Z"
+    lastUpdateTime: "2022-10-06T11:36:35Z"
+    message: ReplicaSet "web-5c6c967b66" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 3
+  readyReplicas: 4
+  replicas: 4
+  updatedReplicas: 4
